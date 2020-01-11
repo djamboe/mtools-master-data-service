@@ -2,7 +2,7 @@ syntax = "proto3";
 import "google/api/annotations.proto";
 
 message Customer{
-    string id = 1;
+    string _id = 1;
     string customername = 2;
     string customeremail = 3;
     string customerphone = 4;
@@ -21,14 +21,41 @@ message GetCustomerDataResponse{
     string api = 1;
     string message = 2;
     bool error = 3;
-    string token = 4;
-    repeated Customer customer = 5;
+    repeated Customer customer = 4;
+}
+
+message Product{
+    string _id = 1;
+    string productname = 2;
+    string description = 3;
+    string status = 4;
+}
+
+message GetProductDataRequest{
+    string api = 1;
+    string query = 2;
+    string value = 3;
+    string collection = 4;
+}
+
+message GetProductDataResponse{
+    string api = 1;
+    string message = 2;
+    bool error = 3;
+    repeated Product product = 4;
 }
 
 service MasterDataService{
     rpc GetCustomerData(GetCustomerDataRequest) returns (GetCustomerDataResponse){
         option (google.api.http) = {
             post: "/v1/master-data/get-customer-data"
+            body: "*"
+        };
+    }
+
+    rpc GetProductData(GetProductDataRequest) returns (GetProductDataResponse){
+        option (google.api.http) = {
+            post: "/v1/master-data/get-product-data"
             body: "*"
         };
     }

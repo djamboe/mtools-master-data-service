@@ -42,7 +42,7 @@ func RunServer() error {
 		return fmt.Errorf("invalid TCP port for HTTP gateway: '%s'", cfg.HTTPPort)
 	}
 
-	v1API := v1.NewLoginServiceServer()
+	v1API := v1.NewMasterDataServiceServer()
 
 	// run HTTP gateway
 	go func() {

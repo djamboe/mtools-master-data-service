@@ -5,5 +5,6 @@ import (
 )
 
 type IMasterDataRepository interface {
-	GetCustomerData(username string, password string, collection string) (models.CustomerModel, error)
+	GetCustomerData(query string, value string, collection string) ([]*models.CustomerModel, error)
+	GetProductData(query string, value string, collection string) ([]*models.ProductModel, error)
 }

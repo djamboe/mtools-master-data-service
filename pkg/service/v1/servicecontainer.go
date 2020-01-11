@@ -2,11 +2,10 @@ package v1
 
 import (
 	"context"
-	"github.com/djamboe/mtools-login-service/controllers"
-	"github.com/djamboe/mtools-login-service/infrastructures"
-	"github.com/djamboe/mtools-login-service/repositories"
-	"github.com/djamboe/mtools-login-service/services"
-	"go.mongodb.org/mongo-driver/bson"
+	"github.com/djamboe/mtools-master-data-service/controllers"
+	"github.com/djamboe/mtools-master-data-service/infrastructures"
+	"github.com/djamboe/mtools-master-data-service/repositories"
+	"github.com/djamboe/mtools-master-data-service/services"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -20,12 +19,12 @@ type User struct {
 }
 
 type IserviceContainer interface {
-	InjectLoginController() controllers.LoginController
+	InjectMasterDataController() controllers.MasterDataController
 }
 
 type kernel struct{}
 
-func (k *kernel) InjectLoginController() controllers.LoginController {
+func (k *kernel) InjectMasterDataController() controllers.MasterDataController {
 	//mysqlConn, _ := sql.Open("mysql", "root:@tcp(localhost:3306)/marketing-tools?charset=utf8")
 	//mysqlHandler := &infrastructures.DBHandler{}
 	//mysqlHandler.Conn = mysqlConn
@@ -43,12 +42,12 @@ func (k *kernel) InjectLoginController() controllers.LoginController {
 	mongoDBConn := c
 	mongoDBHandler := &infrastructures.MongoDBHandler{}
 	mongoDBHandler.Conn = mongoDBConn
-	loginRepository := &repositories.LoginRepository{mongoDBHandler}
-	loginService := &services.LoginService{&repositories.LoginRepositoryWithCircuitBreaker{loginRepository}}
-	loginController := controllers.LoginController{loginService}
+	masterDataRepository := &repositories.MasterDataRepository{mongoDBHandler}
+	masterDataService := &services.MasterDataService{&repositories.MasterDataRepositoryWithCircuitBreaker{masterDataRepository}}
+	masterDataController := controllers.MasterDataController{masterDataService}
 	//test mongodb
 
-	return loginController
+	return masterDataController
 }
 
 var (
@@ -76,12 +75,4 @@ func GetClient() *mongo.Client {
 		log.Fatal(err)
 	}
 	return client
-}
-
-func ReturnOneUser(client *mongo.Client, filter bson.M) User {
-	var user User
-	collection := client.Database("maroon_martools").Collection("users")
-	documentReturned := collection.FindOne(context.TODO(), filter)
-	documentReturned.Decode(&user)
-	return user
 }

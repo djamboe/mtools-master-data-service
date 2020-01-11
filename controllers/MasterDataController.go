@@ -6,13 +6,13 @@ import (
 )
 
 type MasterDataController struct {
-	interfaces.ILoginService
+	interfaces.IMasterDataService
 }
 
-func (controller *LoginController) LoginProcess(username string, password string) (models.UserModel, error) {
-	login, err := controller.DoLogin(username, password)
+func (controller *MasterDataController) GetCustomerDataProcess(query string, value string, collection string) ([]*models.CustomerModel, error) {
+	customerData, err := controller.GetCustomerData(query, value, collection)
 	if err != nil {
 		panic(err)
 	}
-	return login, nil
+	return customerData, nil
 }
