@@ -1,0 +1,35 @@
+syntax = "proto3";
+import "google/api/annotations.proto";
+
+message Customer{
+    string id = 1;
+    string customername = 2;
+    string customeremail = 3;
+    string customerphone = 4;
+    string customeraddress = 5;
+    string status = 6;
+}
+
+message GetCustomerDataRequest{
+    string api = 1;
+    string query = 2;
+    string value = 3;
+    string collection = 4;
+}
+
+message GetCustomerDataResponse{
+    string api = 1;
+    string message = 2;
+    bool error = 3;
+    string token = 4;
+    repeated Customer customer = 5;
+}
+
+service MasterDataService{
+    rpc GetCustomerData(GetCustomerDataRequest) returns (GetCustomerDataResponse){
+        option (google.api.http) = {
+            post: "/v1/master-data/get-customer-data"
+            body: "*"
+        };
+    }
+}
