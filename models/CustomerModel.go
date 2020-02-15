@@ -1,7 +1,7 @@
 package models
 
 type CustomerModel struct {
-	Id              string `json:"_id"`
+	Id              string `bson:"_id"`
 	CustomerName    string `json:"customername"`
 	CustomerEmail   string `json:"customeremail"`
 	CustomerPhone   string `json:"customerphone"`

@@ -1,5 +1,5 @@
 syntax = "proto3";
-import "google/api/annotations.proto";
+import "third_party/google/api/annotations.proto";
 
 message Customer{
     string _id = 1;
